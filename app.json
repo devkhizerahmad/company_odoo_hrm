@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CompanyOdooHRM",
-    "slug": "CompanyOdooHRM",
+    "name": "Our HRM",
+    "slug": "companyodoohrm",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,10 +22,18 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.zayanyaseen.CompanyOdooHRM"
+      "package": "com.zayanyaseen.CompanyOdooHRM",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "VIBRATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

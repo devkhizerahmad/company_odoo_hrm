@@ -1,5 +1,5 @@
 export const Colors = {
-  primary: "#714B67", // ByteScripterz Blue
+  primary: "#714B67", 
   secondary: "#017E84", // Odoo Teal
   background: "#F8F9FA",
   surface: "#FFFFFF",

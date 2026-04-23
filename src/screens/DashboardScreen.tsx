@@ -1,13 +1,50 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Colors } from "../theme/colors";
+import { odooApi } from "../services/odooApi";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }: any) => {
+  const [userName, setUserName] = useState("Team Member");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await odooApi.getCurrentUser();
+      if (user) {
+        setUserName(user.name);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to logout?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Logout", 
+          style: "destructive",
+          onPress: async () => {
+            await odooApi.logout();
+            navigation.replace("Login");
+          }
+        }
+      ]
+    );
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.greeting}>ByteScripterz HRM</Text>
-        <Text style={styles.userName}>Welcome, Team Member</Text>
+        <View style={styles.headerTop}>
+          <Text style={styles.greeting}>ByteScripterz HRM</Text>
+          <TouchableOpacity onPress={handleLogout}>
+            <MaterialCommunityIcons name="logout" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.userName}>Welcome, {userName}</Text>
       </View>
 
       <View style={styles.statsContainer}>
@@ -64,6 +101,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
+  },
+  headerTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   greeting: {
     fontSize: 16,

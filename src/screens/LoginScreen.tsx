@@ -10,10 +10,13 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../theme/colors";
+import { odooApi } from "../services/odooApi";
 
 const { width } = Dimensions.get("window");
 
@@ -22,6 +25,25 @@ const LoginScreen = ({ navigation }: any) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await odooApi.login(email, password);
+      // Success! Navigate to Dashboard
+      navigation.navigate("Dashboard");
+    } catch (error: any) {
+      Alert.alert("Login Failed", error.message || "Something went wrong. Please check your credentials.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <LinearGradient
@@ -106,11 +128,18 @@ const LoginScreen = ({ navigation }: any) => {
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={styles.loginButton}
-              onPress={() => navigation.navigate("Dashboard")}
+              style={[styles.loginButton, loading && { opacity: 0.7 }]}
+              onPress={handleLogin}
+              disabled={loading}
             >
-              <Text style={styles.loginButtonText}>Sign In</Text>
-              <MaterialCommunityIcons name="arrow-right" size={20} color="#fff" />
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <>
+                  <Text style={styles.loginButtonText}>Sign In</Text>
+                  <MaterialCommunityIcons name="arrow-right" size={20} color="#fff" />
+                </>
+              )}
             </TouchableOpacity>
           </View>
         </ScrollView>

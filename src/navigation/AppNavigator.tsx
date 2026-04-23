@@ -1,37 +1,30 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../screens/LoginScreen";
-import DashboardScreen from "../screens/DashboardScreen";
-import { Colors } from "../theme/colors";
+import WebViewLoginScreen from "../screens/WebViewLoginScreen";
+import MainTabNavigator from "./MainTabNavigator";
+import SplashScreen from "../screens/SplashScreen";
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{
-          headerShown: false, // Login screen ke liye header hide rakhein ge design ke mutabiq
-        }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen 
-          name="Dashboard" 
-          component={DashboardScreen} 
-          options={{ 
-            headerShown: true,
-            title: "HRM Dashboard",
-            headerStyle: {
-              backgroundColor: Colors.primary,
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            headerLeft: () => null, // Dashboard pe back button nahi chahiye login ke baad
-          }}
+          name="Splash" 
+          component={SplashScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Login" 
+          component={WebViewLoginScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="MainTabs" 
+          component={MainTabNavigator} 
+          options={{ headerShown: false }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
