@@ -6,7 +6,12 @@ import * as Location from "expo-location";
 import { Colors } from "../theme/colors";
 import { NetworkBar } from "./NetworkBar";
 import { SkeletonLoader } from "./SkeletonLoader";
-import { PROFILE_DETECTION_JS } from "../utils/webViewScripts";
+import { PROFILE_DETECTION_JS, HIDE_HEADER_JS } from "../utils/webViewScripts";
+
+const COMBINED_INJECTION = `
+  ${HIDE_HEADER_JS}
+  ${PROFILE_DETECTION_JS}
+`;
 
 interface GenericWebViewProps {
   url: string;
@@ -91,7 +96,7 @@ export const GenericWebViewScreen = ({ url, onUserIdDetected }: { url: string, o
           geolocationEnabled={true}
           cacheEnabled={true}
           cacheMode="LOAD_DEFAULT"
-          injectedJavaScript={PROFILE_DETECTION_JS}
+          injectedJavaScript={COMBINED_INJECTION}
           onMessage={handleMessage}
           onLoadStart={() => setHasError(false)}
           onError={() => setHasError(true)}

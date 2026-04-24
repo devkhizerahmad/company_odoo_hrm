@@ -27,13 +27,26 @@ export const LOGIN_CSS_INJECTION = `
 export const HIDE_HEADER_JS = `
   (function() {
     var style = document.createElement('style');
-    style.innerHTML = '.o_main_navbar { display: none !important; } body { padding-top: 0 !important; }';
+    style.innerHTML = \`
+      .o_navbar_apps_menu, 
+      .o_menu_toggle, 
+      .o_mobile_menu_toggle, 
+      .o_main_navbar > a.o_menu_brand { 
+        display: none !important; 
+      }
+      .o_main_navbar {
+        background-color: #714B67 !important; /* Standard Odoo Purple */
+      }
+    \`;
     document.head.appendChild(style);
     
     // Periodically check and hide if it reappears
     setInterval(function() {
-      var navbar = document.querySelector(".o_main_navbar");
-      if (navbar) navbar.style.display = "none";
+      var selectors = [".o_navbar_apps_menu", ".o_menu_toggle", ".o_mobile_menu_toggle"];
+      selectors.forEach(function(s) {
+        var el = document.querySelector(s);
+        if (el) el.style.display = "none";
+      });
     }, 500);
   })();
   true;

@@ -41,28 +41,28 @@ const MainTabNavigator = () => {
     >
       <Tab.Screen 
         name="Home"
-        listeners={{ tabPress: () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) }}
+        listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
         {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/discuss" />}
       </Tab.Screen>
 
       <Tab.Screen 
         name="Leave"
-        listeners={{ tabPress: () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) }}
+        listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
         {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/time-off" />}
       </Tab.Screen>
 
       <Tab.Screen 
         name="Profile" 
-        listeners={{ tabPress: () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) }}
+        listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
         {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/action-186" />}
       </Tab.Screen>
 
       <Tab.Screen 
         name="Attendance"
-        listeners={{ tabPress: () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) }}
+        listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
         {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/attendances" />}
       </Tab.Screen>
