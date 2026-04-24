@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { View, Image, Animated, StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { authSession } from "../services/authSession";
+import { appError, appLog } from "../utils/logger";
 
 const SplashScreen = () => {
   const navigation = useNavigation<any>();
@@ -22,13 +24,21 @@ const SplashScreen = () => {
       }),
     ]).start();
 
-    // Navigate to Login after 2.5 seconds
-    const timer = setTimeout(() => {
-      navigation.replace("Login");
+    const timer = setTimeout(async () => {
+      try {
+        appLog("Splash started session check");
+        const storedSession = await authSession.get();
+        const nextRoute = storedSession ? "MainTabs" : "Login";
+        appLog("Splash navigation decision", { nextRoute });
+        navigation.replace(nextRoute);
+      } catch (error) {
+        appError("Splash session check failed, sending user to Login", error);
+        navigation.replace("Login");
+      }
     }, 2500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [fadeAnim, navigation, scaleAnim]);
 
   return (
     <View style={styles.container}>

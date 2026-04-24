@@ -1,13 +1,14 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AUTH_STORAGE_KEY, ODOO_BASE_URL } from "../constants/odoo";
+import { appError } from "../utils/logger";
 
-const BASE_URL = "https://attendance.bytescripterz.com";
 const DB_NAME = "hrm_db";
 
 export const odooApi = {
   login: async (login: string, password: string) => {
     try {
-      const response = await axios.post(`${BASE_URL}/web/session/authenticate`, {
+      const response = await axios.post(`${ODOO_BASE_URL}/web/session/authenticate`, {
         jsonrpc: "2.0",
         params: {
           db: DB_NAME,
@@ -23,7 +24,7 @@ export const odooApi = {
       const userData = response.data.result;
       
       // Save session info
-      await AsyncStorage.setItem("userSession", JSON.stringify({
+      await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({
         uid: userData.uid,
         name: userData.name,
         username: userData.username,
@@ -33,24 +34,24 @@ export const odooApi = {
 
       return userData;
     } catch (error: any) {
-      console.error("Odoo Login Error:", error);
+      appError("Odoo Login Error", error);
       throw error;
     }
   },
 
   logout: async () => {
     try {
-      await AsyncStorage.removeItem("userSession");
+      await AsyncStorage.removeItem(AUTH_STORAGE_KEY);
       // Optional: Call Odoo logout endpoint if needed
-      // await axios.post(`${BASE_URL}/web/session/destroy`, { jsonrpc: "2.0", params: {} });
+      // await axios.post(`${ODOO_BASE_URL}/web/session/destroy`, { jsonrpc: "2.0", params: {} });
     } catch (error) {
-      console.error("Logout Error:", error);
+      appError("Logout Error", error);
     }
   },
 
   getCurrentUser: async () => {
     try {
-      const session = await AsyncStorage.getItem("userSession");
+      const session = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
       return session ? JSON.parse(session) : null;
     } catch (error) {
       return null;

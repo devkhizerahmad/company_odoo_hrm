@@ -28,25 +28,18 @@ export const HIDE_HEADER_JS = `
   (function() {
     var style = document.createElement('style');
     style.innerHTML = \`
-      .o_navbar_apps_menu, 
-      .o_menu_toggle, 
-      .o_mobile_menu_toggle, 
-      .o_main_navbar > a.o_menu_brand { 
-        display: none !important; 
-      }
-      .o_main_navbar {
-        background-color: #714B67 !important; /* Standard Odoo Purple */
+      a.o_menu_toggle.border-0.hasImage {
+        display: none !important;
       }
     \`;
     document.head.appendChild(style);
     
-    // Periodically check and hide if it reappears
+    // Odoo kabhi kabhi navbar ko redraw karta hai, is liye exact selector dobara apply karte rahen.
     setInterval(function() {
-      var selectors = [".o_navbar_apps_menu", ".o_menu_toggle", ".o_mobile_menu_toggle"];
-      selectors.forEach(function(s) {
-        var el = document.querySelector(s);
-        if (el) el.style.display = "none";
-      });
+      var menuButton = document.querySelector("a.o_menu_toggle.border-0.hasImage");
+      if (menuButton) {
+        menuButton.style.display = "none";
+      }
     }, 500);
   })();
   true;

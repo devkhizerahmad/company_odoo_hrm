@@ -6,6 +6,7 @@ import * as Haptics from "expo-haptics";
 import { Colors } from "../theme/colors";
 import { AnimatedTabIcon } from "../components/AnimatedTabIcon";
 import { GenericWebViewScreen } from "../components/GenericWebView";
+import { ODOO_ROUTES } from "../constants/odoo";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,28 +44,28 @@ const MainTabNavigator = () => {
         name="Home"
         listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
-        {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/discuss" />}
+        {() => <GenericWebViewScreen url={ODOO_ROUTES.home} />}
       </Tab.Screen>
 
       <Tab.Screen 
         name="Leave"
         listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
-        {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/time-off" />}
+        {() => <GenericWebViewScreen url={ODOO_ROUTES.leave} />}
       </Tab.Screen>
 
       <Tab.Screen 
         name="Profile" 
         listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
-        {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/action-186" />}
+        {() => <GenericWebViewScreen url={ODOO_ROUTES.profile} />}
       </Tab.Screen>
 
       <Tab.Screen 
         name="Attendance"
         listeners={{ tabPress: () => Haptics.selectionAsync() }}
       >
-        {() => <GenericWebViewScreen url="https://attendance.bytescripterz.com/odoo/attendances" />}
+        {() => <GenericWebViewScreen url={ODOO_ROUTES.attendance} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
